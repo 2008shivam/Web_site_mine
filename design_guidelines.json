@@ -1,0 +1,147 @@
+{
+  "brand_identity": {
+    "name": "Cyberent^3",
+    "tagline": "Exponential Security. Zero Compromise.",
+    "tone": "Elite, Technical, Vigilant, Future-Proof",
+    "archetype": "The Guardian / The Architect",
+    "visual_theme": "Dark Mode Cyber-Fortress"
+  },
+  "typography": {
+    "primary_font": "Space Grotesk",
+    "secondary_font": "Inter",
+    "mono_font": "JetBrains Mono",
+    "usage": {
+      "headings": "Space Grotesk, font-bold, tracking-tight, uppercase for section titles",
+      "body": "Inter, font-normal, leading-relaxed, text-slate-400",
+      "code": "JetBrains Mono, text-xs or text-sm, for data points and decorative terminal text"
+    }
+  },
+  "colors": {
+    "background": {
+      "default": "#050505",
+      "paper": "#0A0A0A",
+      "subtle": "#111111"
+    },
+    "primary": {
+      "main": "#00FF94",
+      "hover": "#00CC76",
+      "glow": "0 0 20px rgba(0, 255, 148, 0.5)"
+    },
+    "secondary": {
+      "main": "#3B82F6",
+      "dim": "#1E293B"
+    },
+    "accent": {
+      "danger": "#EF4444",
+      "warning": "#F59E0B"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#94A3B8",
+      "muted": "#475569"
+    }
+  },
+  "layout_system": {
+    "grid_strategy": "Bento Grid (Asymmetrical)",
+    "spacing": "Generous (Tailwind scale p-8 to p-32)",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "border_radius": "rounded-none (Sharp/Technical) or rounded-sm (Minimal)",
+    "glassmorphism": "Heavy blur (backdrop-blur-xl), low opacity border (border-white/10)"
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-primary text-black font-bold hover:bg-primary/90 sharp-edges or slight rounded-sm",
+      "secondary": "border border-white/20 hover:border-primary hover:text-primary bg-transparent text-white transition-colors"
+    },
+    "cards": {
+      "service_card": "bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-300 group relative overflow-hidden",
+      "feature_card": "bg-black border border-white/10 p-6 hover:bg-white/5"
+    },
+    "inputs": {
+      "style": "bg-white/5 border-white/10 focus:border-primary focus:ring-1 focus:ring-primary text-white placeholder:text-slate-600"
+    }
+  },
+  "visual_enhancers": {
+    "gradients": "Radial gradient backgrounds (green/blue) faded to 0 opacity",
+    "textures": "Subtle noise overlay (opacity 0.05)",
+    "effects": [
+      "Glitch effect on logo hover",
+      "Terminal typing effect for hero text",
+      "Scanline overlay (optional)"
+    ]
+  },
+  "media": {
+    "image_style": "Desaturated, High Contrast, Blue/Green Tint",
+    "image_urls": {
+      "hero_bg": "https://images.unsplash.com/photo-1645477704075-cb3d14b349ee?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "network_abstract": "https://images.unsplash.com/photo-1737505599162-d9932323a889?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "analyst_working": "https://images.unsplash.com/photo-1662638600476-d563fffbb072?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "code_screen": "https://images.unsplash.com/photo-1754301735329-660c07c97b17?crop=entropy&cs=srgb&fm=jpg&q=85"
+    }
+  },
+  "sections": {
+    "hero": {
+      "type": "Split",
+      "left": "Typing effect headline + CTA",
+      "right": "Abstract 3D Network Node or Code Visual",
+      "bg": "Dark with subtle grid lines"
+    },
+    "services": {
+      "type": "Bento Grid",
+      "items": [
+        "Web Application VAPT",
+        "Mobile Application VAPT",
+        "Infrastructure/Network VAPT",
+        "Thick Client VAPT",
+        "API Security Testing"
+      ]
+    },
+    "about": {
+      "type": "Feature List + Image",
+      "content": "Why Cyberent^3? Exponential protection logic."
+    },
+    "contact": {
+      "type": "Terminal/Command Center Form",
+      "fields": ["Name", "Company", "Email", "Service Type (Select)", "Message"]
+    }
+  },
+  "motion": {
+    "library": "framer-motion",
+    "preferences": "reduced-motion: no-preference",
+    "animations": {
+      "fade_up": "initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}",
+      "stagger": "staggerChildren: 0.1",
+      "hover_glow": "whileHover={{ boxShadow: '0 0 20px rgba(0,255,148,0.3)' }}"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Use 'Space Grotesk' from Google Fonts for all headings.",
+    "Implement a 'Matrix' or 'Terminal' feel but keep it clean for enterprise clients.",
+    "The '^3' in the name is a superscript. Style it distinctly (e.g., smaller, higher, different color).",
+    "Use the provided image URLs for backgrounds and section visuals.",
+    "Ensure the Contact Form feels like submitting a secure transmission.",
+    "Use 'sonner' for toast notifications on form submit.",
+    "Strictly follow the Dark Mode color palette.",
+    "Do not use generic 'shield' icons. Use abstract geometric shapes or Phosphor icons (ShieldCheck, LockKey, Circuitry)."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy",
+    "Use glass-morphism effects with backdrop filters (12-24px blur)",
+    "You MUST NOT apply universal transition. Eg: transition: all. This results in breaking transforms. Always add transitions for specific interactive elements like button, input excluding transforms",
+    "You MUST NOT center align the app container, ie do not add .App { text-align: center; } in the css file. This disrupts the human natural reading flow of text",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style",
+    "NEVER: use AI assistant Emoji characters like 🤖🧠💭💡🔮🎯📚🎭🎬🎪🎉🎊🎁🎀🎂🍰🎈🎨🎰💰💵💳🏦💎🪙💸🤑📊📈📉💹🔢🏆🥇 etc for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations. Static = dead.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
+    "Main agent relies on these image URLs. Missing categories (especially sponsor logos) = main agent will use placeholder text which is FORBIDDEN",
+    "Prioritize using pre-existing components from src/components/ui when applicable",
+    "Create new components that match the style and conventions of existing components when needed",
+    "Examine existing components to understand the project's component patterns before creating new ones",
+    "Components MUST use named exports (export const ComponentName = ...)",
+    "Pages MUST use default exports (export default function PageName() {...})",
+    "Use sonner for toasts. Sonner component are located in /app/src/components/ui/sonner.tsx"
+  ]
+}
