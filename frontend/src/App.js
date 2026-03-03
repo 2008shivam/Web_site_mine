@@ -920,6 +920,198 @@ const Footer = () => {
   );
 };
 
+// SSL Security Badge Component
+const SSLBadge = () => (
+  <div className="fixed bottom-24 right-6 z-40" data-testid="ssl-badge">
+    <div className="glass px-4 py-2 flex items-center gap-2 animate-fade-in-up">
+      <Lock className="w-4 h-4 text-[#00FF94]" />
+      <div className="text-xs">
+        <p className="text-[#00FF94] font-semibold">SSL Secured</p>
+        <p className="text-slate-500">256-bit Encryption</p>
+      </div>
+    </div>
+  </div>
+);
+
+// 404 Not Found Page
+const NotFoundPage = () => {
+  const navigate = useNavigate();
+  
+  return (
+    <div className="min-h-screen bg-[#050505] flex items-center justify-center px-4 grid-bg" data-testid="404-page">
+      <div className="noise-overlay" />
+      <div className="text-center relative z-10 animate-fade-in-up">
+        <div className="mb-8">
+          <ShieldAlert className="w-24 h-24 text-[#00FF94] mx-auto mb-4 animate-pulse-glow" />
+          <h1 className="text-8xl font-bold text-white mb-2">404</h1>
+          <div className="w-24 h-1 bg-[#00FF94] mx-auto mb-6" />
+        </div>
+        
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+          Access Denied - Page Not Found
+        </h2>
+        <p className="text-slate-400 mb-8 max-w-md mx-auto">
+          The requested resource could not be located. This incident has been logged for security analysis.
+        </p>
+        
+        <div className="font-mono text-sm text-slate-600 mb-8 p-4 bg-white/5 border border-white/10 inline-block">
+          <p>ERROR_CODE: 404_NOT_FOUND</p>
+          <p>TIMESTAMP: {new Date().toISOString()}</p>
+          <p>STATUS: RESOURCE_UNAVAILABLE</p>
+        </div>
+        
+        <div className="flex flex-wrap justify-center gap-4">
+          <button
+            onClick={() => navigate("/")}
+            className="btn-cyber flex items-center gap-2"
+            data-testid="404-home-btn"
+          >
+            <Home size={18} />
+            Return to Base
+          </button>
+          <button
+            onClick={() => window.history.back()}
+            className="btn-outline flex items-center gap-2"
+            data-testid="404-back-btn"
+          >
+            <ArrowRight size={18} className="rotate-180" />
+            Go Back
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 500 Server Error Page
+const ServerErrorPage = () => {
+  const navigate = useNavigate();
+  
+  return (
+    <div className="min-h-screen bg-[#050505] flex items-center justify-center px-4 grid-bg" data-testid="500-page">
+      <div className="noise-overlay" />
+      <div className="text-center relative z-10 animate-fade-in-up">
+        <div className="mb-8">
+          <ServerCrash className="w-24 h-24 text-red-500 mx-auto mb-4" />
+          <h1 className="text-8xl font-bold text-white mb-2">500</h1>
+          <div className="w-24 h-1 bg-red-500 mx-auto mb-6" />
+        </div>
+        
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+          Internal Server Error
+        </h2>
+        <p className="text-slate-400 mb-8 max-w-md mx-auto">
+          Our systems encountered an unexpected error. Our security team has been notified and is investigating.
+        </p>
+        
+        <div className="font-mono text-sm text-slate-600 mb-8 p-4 bg-white/5 border border-red-500/30 inline-block">
+          <p className="text-red-400">ERROR_CODE: 500_INTERNAL_ERROR</p>
+          <p>TIMESTAMP: {new Date().toISOString()}</p>
+          <p>STATUS: SYSTEM_FAILURE</p>
+        </div>
+        
+        <div className="flex flex-wrap justify-center gap-4">
+          <button
+            onClick={() => window.location.reload()}
+            className="btn-cyber flex items-center gap-2"
+            data-testid="500-retry-btn"
+          >
+            <RefreshCw size={18} />
+            Retry Connection
+          </button>
+          <button
+            onClick={() => navigate("/")}
+            className="btn-outline flex items-center gap-2"
+            data-testid="500-home-btn"
+          >
+            <Home size={18} />
+            Return to Base
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 403 Forbidden Page
+const ForbiddenPage = () => {
+  const navigate = useNavigate();
+  
+  return (
+    <div className="min-h-screen bg-[#050505] flex items-center justify-center px-4 grid-bg" data-testid="403-page">
+      <div className="noise-overlay" />
+      <div className="text-center relative z-10 animate-fade-in-up">
+        <div className="mb-8">
+          <AlertTriangle className="w-24 h-24 text-yellow-500 mx-auto mb-4" />
+          <h1 className="text-8xl font-bold text-white mb-2">403</h1>
+          <div className="w-24 h-1 bg-yellow-500 mx-auto mb-6" />
+        </div>
+        
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+          Access Forbidden
+        </h2>
+        <p className="text-slate-400 mb-8 max-w-md mx-auto">
+          You do not have permission to access this resource. This attempt has been logged.
+        </p>
+        
+        <div className="font-mono text-sm text-slate-600 mb-8 p-4 bg-white/5 border border-yellow-500/30 inline-block">
+          <p className="text-yellow-400">ERROR_CODE: 403_FORBIDDEN</p>
+          <p>TIMESTAMP: {new Date().toISOString()}</p>
+          <p>STATUS: ACCESS_DENIED</p>
+        </div>
+        
+        <div className="flex flex-wrap justify-center gap-4">
+          <button
+            onClick={() => navigate("/")}
+            className="btn-cyber flex items-center gap-2"
+            data-testid="403-home-btn"
+          >
+            <Home size={18} />
+            Return to Base
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Offline/Network Error Page
+const OfflinePage = () => {
+  return (
+    <div className="min-h-screen bg-[#050505] flex items-center justify-center px-4 grid-bg" data-testid="offline-page">
+      <div className="noise-overlay" />
+      <div className="text-center relative z-10 animate-fade-in-up">
+        <div className="mb-8">
+          <WifiOff className="w-24 h-24 text-slate-500 mx-auto mb-4" />
+          <h1 className="text-4xl font-bold text-white mb-2">Connection Lost</h1>
+          <div className="w-24 h-1 bg-slate-500 mx-auto mb-6" />
+        </div>
+        
+        <h2 className="text-xl md:text-2xl font-bold text-white mb-4">
+          No Network Connection
+        </h2>
+        <p className="text-slate-400 mb-8 max-w-md mx-auto">
+          Please check your internet connection and try again.
+        </p>
+        
+        <div className="font-mono text-sm text-slate-600 mb-8 p-4 bg-white/5 border border-white/10 inline-block">
+          <p>STATUS: NETWORK_UNAVAILABLE</p>
+          <p>ACTION: CHECK_CONNECTION</p>
+        </div>
+        
+        <button
+          onClick={() => window.location.reload()}
+          className="btn-cyber flex items-center gap-2 mx-auto"
+          data-testid="offline-retry-btn"
+        >
+          <RefreshCw size={18} />
+          Retry Connection
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // Main App Component
 function App() {
   return (
