@@ -1112,6 +1112,21 @@ const OfflinePage = () => {
   );
 };
 
+// Home Page Component
+const HomePage = () => {
+  return (
+    <>
+      <Navigation />
+      <HeroSection />
+      <ServicesSection />
+      <AboutSection />
+      <ContactSection />
+      <Footer />
+      <SSLBadge />
+    </>
+  );
+};
+
 // Main App Component
 function App() {
   return (
@@ -1126,12 +1141,16 @@ function App() {
           },
         }}
       />
-      <Navigation />
-      <HeroSection />
-      <ServicesSection />
-      <AboutSection />
-      <ContactSection />
-      <Footer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/404" element={<NotFoundPage />} />
+          <Route path="/403" element={<ForbiddenPage />} />
+          <Route path="/500" element={<ServerErrorPage />} />
+          <Route path="/offline" element={<OfflinePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
