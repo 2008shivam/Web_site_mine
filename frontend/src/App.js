@@ -21,7 +21,8 @@ import {
   Eye,
   FileCode,
   Activity,
-  ClipboardCheck
+  ClipboardCheck,
+  Mail
 } from "lucide-react";
 import {
   Select,
@@ -605,6 +606,17 @@ const ContactSection = () => {
 
             {/* Contact Info */}
             <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center">
+                  <Mail className="w-5 h-5 text-[#00FF94]" />
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500">Email Us</p>
+                  <a href="mailto:hello@cyberentcube.com" className="font-semibold hover:text-[#00FF94] transition-colors">
+                    hello@cyberentcube.com
+                  </a>
+                </div>
+              </div>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center">
                   <Zap className="w-5 h-5 text-[#00FF94]" />
