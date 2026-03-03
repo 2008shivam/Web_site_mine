@@ -720,6 +720,9 @@ const ContactSection = () => {
                       <SelectItem value="api" className="text-white hover:bg-white/10">
                         API Security Testing
                       </SelectItem>
+                      <SelectItem value="grc" className="text-white hover:bg-white/10">
+                        GRC Auditing
+                      </SelectItem>
                       <SelectItem value="multiple" className="text-white hover:bg-white/10">
                         Multiple Services
                       </SelectItem>
