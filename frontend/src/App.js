@@ -106,12 +106,10 @@ const Navigation = () => {
               e.preventDefault();
               scrollToSection("hero");
             }}
-            className="flex items-center gap-2"
+            className="flex items-center gap-3"
             data-testid="logo-link"
           >
-            <div className="w-10 h-10 bg-[#00FF94] flex items-center justify-center">
-              <ShieldCheck className="w-6 h-6 text-black" />
-            </div>
+            <CyberentLogo size={40} />
             <span className="text-xl font-bold tracking-tight">
               Cyberent<sup className="text-[#00FF94] text-xs">3</sup>
             </span>
@@ -829,10 +827,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-[#00FF94] flex items-center justify-center">
-                <ShieldCheck className="w-6 h-6 text-black" />
-              </div>
+            <div className="flex items-center gap-3 mb-4">
+              <CyberentLogo size={40} />
               <span className="text-xl font-bold tracking-tight">
                 Cyberent<sup className="text-[#00FF94] text-xs">3</sup>
               </span>
@@ -840,6 +836,11 @@ const Footer = () => {
             <p className="text-slate-500 text-sm max-w-sm mb-4">
               Exponential Security. Zero Compromise. Elite VAPT services for
               enterprises that demand excellence.
+            </p>
+            <p className="text-slate-400 text-sm mb-2">
+              <a href="mailto:hello@cyberentcube.com" className="hover:text-[#00FF94] transition-colors">
+                hello@cyberentcube.com
+              </a>
             </p>
             <div className="flex items-center gap-2">
               <div className="status-dot" />
