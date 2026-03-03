@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Web_site_mine/static/css/main.a99c8475.css",
+    "main.js": "/Web_site_mine/static/js/main.beb6b05b.js",
+    "index.html": "/Web_site_mine/index.html",
+    "main.a99c8475.css.map": "/Web_site_mine/static/css/main.a99c8475.css.map",
+    "main.beb6b05b.js.map": "/Web_site_mine/static/js/main.beb6b05b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a99c8475.css",
+    "static/js/main.beb6b05b.js"
+  ]
+}
