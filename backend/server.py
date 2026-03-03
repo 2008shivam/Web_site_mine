@@ -31,6 +31,48 @@ NOTIFICATION_EMAIL = os.environ.get('NOTIFICATION_EMAIL', 'jhashivam2008@gmail.c
 # Create the main app without a prefix
 app = FastAPI()
 
+# Security Headers Middleware
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        
+        # Content Security Policy - controls what resources can be loaded
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://assets.emergent.sh https://cdn.tailwindcss.com https://us.i.posthog.com; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "font-src 'self' https://fonts.gstatic.com; "
+            "img-src 'self' data: https: blob:; "
+            "connect-src 'self' https: wss:; "
+            "frame-ancestors 'self' https://app.emergent.sh https://*.emergent.sh;"
+        )
+        
+        # Prevent MIME type sniffing
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        
+        # Prevent clickjacking
+        response.headers["X-Frame-Options"] = "SAMEORIGIN"
+        
+        # XSS Protection (legacy but still useful)
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+        
+        # Referrer Policy - controls referrer info sent
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        
+        # Permissions Policy - restrict browser features
+        response.headers["Permissions-Policy"] = (
+            "accelerometer=(), camera=(), geolocation=(), gyroscope=(), "
+            "magnetometer=(), microphone=(), payment=(), usb=()"
+        )
+        
+        # Strict Transport Security (HSTS) - enforce HTTPS
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+        
+        return response
+
+# Add security headers middleware
+app.add_middleware(SecurityHeadersMiddleware)
+
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
