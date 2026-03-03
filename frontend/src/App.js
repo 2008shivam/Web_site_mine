@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route, useNavigate, HashRouter } from "react-router-dom";
-import emailjs from "@emailjs/browser";
+import { HashRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { 
   Globe, 
@@ -39,11 +38,9 @@ import {
   SelectValue,
 } from "./components/ui/select";
 
-// EmailJS Configuration - Get these from https://www.emailjs.com/
-// These are PUBLIC keys - safe to expose in frontend
-const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID";
-const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID";
-const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY";
+// Cloudflare Worker URL for Resend email proxy
+// Deploy cloudflare-worker.js to Cloudflare Workers and update this URL
+const EMAIL_API_URL = process.env.REACT_APP_EMAIL_API_URL || "https://your-worker.your-subdomain.workers.dev";
 
 // Custom Logo Component - Cyber Cube Design
 const CyberentLogo = ({ size = 40 }) => (
