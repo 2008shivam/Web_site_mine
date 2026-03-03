@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "@/App.css";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 import { 
@@ -22,7 +23,13 @@ import {
   FileCode,
   Activity,
   ClipboardCheck,
-  Mail
+  Mail,
+  AlertTriangle,
+  Home,
+  RefreshCw,
+  ServerCrash,
+  ShieldAlert,
+  WifiOff
 } from "lucide-react";
 import {
   Select,
