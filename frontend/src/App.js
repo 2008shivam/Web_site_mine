@@ -587,52 +587,44 @@ const ContactSection = () => {
     setFormData((prev) => ({ ...prev, service_type: value }));
   };
 
-  // Service type labels for email
-  const serviceLabels = {
-    web: "Web Application VAPT",
-    mobile: "Mobile Application VAPT",
-    network: "Infrastructure/Network VAPT",
-    thick: "Thick Client VAPT",
-    api: "API Security Testing",
-    grc: "GRC Auditing",
-    multiple: "Multiple Services"
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // Prepare template parameters for EmailJS
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        company: formData.company || "Not provided",
-        service_type: serviceLabels[formData.service_type] || formData.service_type,
-        message: formData.message,
-        to_email: "jhashivam2008@gmail.com"
-      };
-
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
-      );
-
-      toast.success("Transmission Successful", {
-        description: "Your message has been transmitted securely. Our team will respond within 24 hours.",
+      const response = await fetch(EMAIL_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          service_type: formData.service_type,
+          message: formData.message,
+        }),
       });
-      
-      setFormData({
-        name: "",
-        company: "",
-        email: "",
-        service_type: "",
-        message: "",
-      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success("Transmission Successful", {
+          description: "Your message has been transmitted securely. Our team will respond within 24 hours.",
+        });
+        
+        setFormData({
+          name: "",
+          company: "",
+          email: "",
+          service_type: "",
+          message: "",
+        });
+      } else {
+        throw new Error(data.error || "Failed to send");
+      }
     } catch (error) {
-      console.error("EmailJS Error:", error);
+      console.error("Email Error:", error);
       toast.error("Transmission Failed", {
         description: "Please check your connection and try again.",
       });
