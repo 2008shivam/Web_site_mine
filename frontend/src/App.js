@@ -1169,7 +1169,7 @@ function App() {
           },
         }}
       />
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/404" element={<NotFoundPage />} />
@@ -1178,7 +1178,7 @@ function App() {
           <Route path="/offline" element={<OfflinePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
