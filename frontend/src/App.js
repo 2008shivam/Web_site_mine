@@ -35,6 +35,40 @@ import {
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
+// Custom Logo Component - Cyber Cube Design
+const CyberentLogo = ({ size = 40 }) => (
+  <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Outer cube frame */}
+    <path 
+      d="M20 2L36 11V29L20 38L4 29V11L20 2Z" 
+      stroke="#00FF94" 
+      strokeWidth="2" 
+      fill="none"
+    />
+    {/* Inner shield */}
+    <path 
+      d="M20 8L30 14V26L20 32L10 26V14L20 8Z" 
+      fill="#00FF94" 
+      fillOpacity="0.2"
+    />
+    {/* Center lock/shield icon */}
+    <path 
+      d="M20 12L26 16V24L20 28L14 24V16L20 12Z" 
+      fill="#00FF94"
+    />
+    {/* Keyhole */}
+    <circle cx="20" cy="18" r="2" fill="#050505"/>
+    <rect x="19" y="19" width="2" height="4" fill="#050505"/>
+    {/* Corner accents */}
+    <circle cx="20" cy="2" r="2" fill="#00FF94"/>
+    <circle cx="36" cy="11" r="1.5" fill="#00FF94" fillOpacity="0.5"/>
+    <circle cx="36" cy="29" r="1.5" fill="#00FF94" fillOpacity="0.5"/>
+    <circle cx="20" cy="38" r="1.5" fill="#00FF94" fillOpacity="0.5"/>
+    <circle cx="4" cy="29" r="1.5" fill="#00FF94" fillOpacity="0.5"/>
+    <circle cx="4" cy="11" r="1.5" fill="#00FF94" fillOpacity="0.5"/>
+  </svg>
+);
+
 // Navigation Component
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
