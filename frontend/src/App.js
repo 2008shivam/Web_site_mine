@@ -20,7 +20,8 @@ import {
   Target,
   Eye,
   FileCode,
-  Activity
+  Activity,
+  ClipboardCheck
 } from "lucide-react";
 import {
   Select,
@@ -337,6 +338,14 @@ const services = [
       "Thorough testing of REST, GraphQL, and SOAP APIs for authentication, authorization, and data exposure vulnerabilities.",
     icon: Code2,
     features: ["REST & GraphQL", "OAuth Testing", "Rate Limiting"],
+  },
+  {
+    id: "grc",
+    title: "GRC Auditing",
+    description:
+      "Governance, Risk, and Compliance auditing to ensure your organization meets regulatory requirements and industry standards.",
+    icon: ClipboardCheck,
+    features: ["ISO 27001", "SOC 2", "GDPR/HIPAA"],
   },
 ];
 
