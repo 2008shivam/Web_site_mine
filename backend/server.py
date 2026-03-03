@@ -4,6 +4,8 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import asyncio
+import resend
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
 from typing import List, Optional
@@ -18,6 +20,11 @@ load_dotenv(ROOT_DIR / '.env')
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
+
+# Resend configuration
+resend.api_key = os.environ.get('RESEND_API_KEY')
+SENDER_EMAIL = os.environ.get('SENDER_EMAIL', 'onboarding@resend.dev')
+NOTIFICATION_EMAIL = os.environ.get('NOTIFICATION_EMAIL', 'jhashivam2008@gmail.com')
 
 # Create the main app without a prefix
 app = FastAPI()
@@ -88,6 +95,75 @@ async def get_status_checks():
     
     return status_checks
 
+# Service type mapping for email
+SERVICE_TYPES = {
+    "web": "Web Application VAPT",
+    "mobile": "Mobile Application VAPT",
+    "network": "Infrastructure/Network VAPT",
+    "thick": "Thick Client VAPT",
+    "api": "API Security Testing",
+    "grc": "GRC Auditing",
+    "multiple": "Multiple Services"
+}
+
+async def send_notification_email(submission: ContactSubmission):
+    """Send email notification for new contact form submission"""
+    service_name = SERVICE_TYPES.get(submission.service_type, submission.service_type)
+    
+    html_content = f"""
+    <html>
+    <body style="font-family: Arial, sans-serif; background-color: #0a0a0a; color: #ffffff; padding: 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #111111; border: 1px solid #00FF94; padding: 30px;">
+            <h1 style="color: #00FF94; margin-bottom: 20px;">New Contact Form Submission</h1>
+            <p style="color: #94A3B8; margin-bottom: 20px;">You have received a new inquiry from the Cyberent³ website.</p>
+            
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #222; color: #94A3B8;">Name:</td>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #222; color: #ffffff;">{submission.name}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #222; color: #94A3B8;">Company:</td>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #222; color: #ffffff;">{submission.company or 'Not provided'}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #222; color: #94A3B8;">Email:</td>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #222; color: #00FF94;">{submission.email}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #222; color: #94A3B8;">Service:</td>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #222; color: #ffffff;">{service_name}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px 0; color: #94A3B8;" colspan="2">Message:</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; background-color: #0a0a0a; color: #ffffff;" colspan="2">{submission.message}</td>
+                </tr>
+            </table>
+            
+            <p style="color: #475569; font-size: 12px; margin-top: 30px;">
+                Submission ID: {submission.id}<br>
+                Submitted at: {submission.created_at.strftime('%Y-%m-%d %H:%M UTC')}
+            </p>
+        </div>
+    </body>
+    </html>
+    """
+    
+    params = {
+        "from": SENDER_EMAIL,
+        "to": [NOTIFICATION_EMAIL],
+        "subject": f"[Cyberent³] New Inquiry: {service_name} - {submission.name}",
+        "html": html_content
+    }
+    
+    try:
+        await asyncio.to_thread(resend.Emails.send, params)
+        logging.info(f"Notification email sent for submission {submission.id}")
+    except Exception as e:
+        logging.error(f"Failed to send notification email: {e}")
+
 # Contact Form Endpoint
 @api_router.post("/contact", response_model=ContactSubmissionResponse)
 async def submit_contact_form(input: ContactSubmissionCreate):
@@ -98,6 +174,9 @@ async def submit_contact_form(input: ContactSubmissionCreate):
         doc['created_at'] = doc['created_at'].isoformat()
         
         await db.contact_submissions.insert_one(doc)
+        
+        # Send email notification (non-blocking)
+        asyncio.create_task(send_notification_email(submission))
         
         return ContactSubmissionResponse(
             success=True,
