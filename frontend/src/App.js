@@ -38,9 +38,8 @@ import {
   SelectValue,
 } from "./components/ui/select";
 
-// Cloudflare Worker URL for Resend email proxy
-// Deploy cloudflare-worker.js to Cloudflare Workers and update this URL
-const EMAIL_API_URL = process.env.REACT_APP_EMAIL_API_URL || "https://your-worker.your-subdomain.workers.dev";
+// API URL - uses relative path for Vercel, or custom URL for other deployments
+const EMAIL_API_URL = process.env.REACT_APP_EMAIL_API_URL || "/api/send-email";
 
 // Custom Logo Component - Cyber Cube Design
 const CyberentLogo = ({ size = 40 }) => (
