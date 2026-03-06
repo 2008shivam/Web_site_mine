@@ -1,143 +1,232 @@
-# Cyberent³ - GitHub Pages + Resend Deployment Guide
+# Cyberent³ - Vercel Deployment Guide (with Resend)
 
 ## Overview
-This is a **pure frontend** React app deployable to GitHub Pages, using **Resend** for emails via a free **Cloudflare Worker** proxy.
+Deploy to **Vercel** with a serverless function that securely handles Resend API calls.
 
 ```
 ┌─────────────────┐      ┌─────────────────────┐      ┌─────────────┐
-│  GitHub Pages   │ ───► │  Cloudflare Worker  │ ───► │   Resend    │
-│  (React App)    │      │  (Free, Serverless) │      │   (Email)   │
+│     Vercel      │      │  Vercel Serverless  │      │   Resend    │
+│  (React App)    │ ───► │    Function /api    │ ───► │   (Email)   │
 └─────────────────┘      └─────────────────────┘      └─────────────┘
-     Frontend              Keeps API key safe           Sends email
+     Frontend              API key is secure            Sends email
 ```
+
+**Benefits:**
+- ✅ One-click deployment
+- ✅ API key stored securely as environment variable
+- ✅ Free tier (100GB bandwidth, unlimited serverless invocations)
+- ✅ Automatic HTTPS
+- ✅ Custom domain support
 
 ---
 
-## Step 1: Set Up Cloudflare Worker (5 minutes)
+## Step 1: Prepare Your Code
 
-### 1.1 Create Cloudflare Account
-Go to [https://dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up) (free)
-
-### 1.2 Create Worker
-1. Go to **Workers & Pages** → **Create Application** → **Create Worker**
-2. Name it: `cyberent-email`
-3. Click **Deploy**
-
-### 1.3 Edit Worker Code
-1. Click **Edit code**
-2. Replace all code with contents of `cloudflare-worker.js` (included in this project)
-3. Click **Save and Deploy**
-
-### 1.4 Add Resend API Key
-1. Go to Worker → **Settings** → **Variables**
-2. Click **Add variable**
-3. Name: `RESEND_API_KEY`
-4. Value: Your Resend API key (e.g., `re_DEMwQcGB_...`)
-5. Click **Encrypt** (important!)
-6. Click **Save and Deploy**
-
-### 1.5 Get Your Worker URL
-Your worker URL will be: `https://cyberent-email.YOUR_SUBDOMAIN.workers.dev`
-
----
-
-## Step 2: Configure React App
-
-Update `/frontend/.env`:
-```env
-REACT_APP_EMAIL_API_URL=https://cyberent-email.YOUR_SUBDOMAIN.workers.dev
-```
-
----
-
-## Step 3: Deploy to GitHub Pages
-
-### 3.1 Update package.json
-```json
-"homepage": "https://YOUR_USERNAME.github.io/cyberent-cube"
-```
-
-### 3.2 Deploy
-```bash
-cd frontend
-yarn install
-yarn deploy
-```
-
-### 3.3 Enable GitHub Pages
-1. Go to GitHub repo → **Settings** → **Pages**
-2. Source: **Deploy from a branch**
-3. Branch: `gh-pages` / `root`
-4. Save
-
----
-
-## Project Files
-
+Your project structure should look like:
 ```
 /frontend
+├── api/
+│   └── send-email.js    # Serverless function (already created)
 ├── src/
-│   └── App.js              # Main app (uses EMAIL_API_URL)
-├── cloudflare-worker.js    # Deploy this to Cloudflare
-├── .env                    # Set REACT_APP_EMAIL_API_URL here
-├── package.json            # Update homepage for your repo
-└── DEPLOYMENT.md           # This file
+│   └── App.js           # React app
+├── vercel.json          # Vercel configuration
+├── package.json
+└── .env
+```
+
+---
+
+## Step 2: Deploy to Vercel
+
+### Option A: Deploy via Vercel CLI (Recommended)
+
+```bash
+# Install Vercel CLI
+npm install -g vercel
+
+# Login to Vercel
+vercel login
+
+# Deploy (from /frontend directory)
+cd frontend
+vercel
+
+# Follow the prompts:
+# - Set up and deploy? Yes
+# - Which scope? Select your account
+# - Link to existing project? No
+# - Project name? cyberent-cube
+# - Directory? ./
+# - Override settings? No
+```
+
+### Option B: Deploy via GitHub Integration
+
+1. Push your code to GitHub
+2. Go to [vercel.com](https://vercel.com) and sign in
+3. Click **"Add New Project"**
+4. Import your GitHub repository
+5. Configure:
+   - Framework Preset: **Create React App**
+   - Root Directory: `frontend` (if in subdirectory)
+6. Click **Deploy**
+
+---
+
+## Step 3: Add Environment Variables
+
+**IMPORTANT:** Add your Resend API key securely in Vercel.
+
+### Via Vercel Dashboard:
+1. Go to your project in Vercel Dashboard
+2. Click **Settings** → **Environment Variables**
+3. Add:
+   | Name | Value | Environment |
+   |------|-------|-------------|
+   | `RESEND_API_KEY` | `re_DEMwQcGB_LvQhAgmkgqgnFqwTZYeZgMKo` | Production, Preview, Development |
+4. Click **Save**
+5. **Redeploy** for changes to take effect
+
+### Via Vercel CLI:
+```bash
+vercel env add RESEND_API_KEY
+# Enter: re_DEMwQcGB_LvQhAgmkgqgnFqwTZYeZgMKo
+# Select: Production, Preview, Development
+```
+
+---
+
+## Step 4: Test Your Deployment
+
+1. Visit your Vercel URL: `https://your-project.vercel.app`
+2. Fill out the contact form
+3. Check your email at jhashivam2008@gmail.com
+
+---
+
+## Custom Domain (Optional)
+
+1. Go to Vercel Dashboard → Your Project → **Settings** → **Domains**
+2. Add your domain: `cyberentcube.com`
+3. Configure DNS as instructed by Vercel
+
+---
+
+## Project Files Explained
+
+### `/api/send-email.js`
+```javascript
+// This is a Vercel Serverless Function
+// - Runs on server, not in browser
+// - Has access to process.env.RESEND_API_KEY
+// - Called when frontend POSTs to /api/send-email
+```
+
+### `/vercel.json`
+```json
+{
+  "builds": [...],  // How to build the project
+  "routes": [...],  // URL routing rules
+  "env": {...}      // Environment variable references
+}
 ```
 
 ---
 
 ## Security
 
-✅ **Secure:**
-- Resend API key stored in Cloudflare Worker (encrypted)
-- Never exposed to frontend/browser
+| What | Where | Secure? |
+|------|-------|---------|
+| Resend API Key | Vercel Environment Variables | ✅ Yes - Server-side only |
+| Form Data | HTTPS encrypted | ✅ Yes |
+| API Endpoint | `/api/send-email` | ✅ Yes - Serverless function |
 
-✅ **How it works:**
-1. User submits form on your website
-2. React sends data to Cloudflare Worker
-3. Worker calls Resend API with secret key
-4. Email sent to jhashivam2008@gmail.com
+**The API key is NEVER exposed to the browser.**
 
 ---
 
 ## Troubleshooting
 
-### CORS Error
-Make sure your Cloudflare Worker has these headers:
+### "Failed to send email" error
+1. Check Vercel Dashboard → Your Project → **Logs**
+2. Verify `RESEND_API_KEY` is set in Environment Variables
+3. Redeploy after adding environment variables
+
+### Form submits but no email received
+1. Check Resend Dashboard for delivery status
+2. Check spam folder
+3. Verify the recipient email in `/api/send-email.js`
+
+### 404 on /api/send-email
+1. Ensure `/api/send-email.js` exists
+2. Check `vercel.json` configuration
+3. Redeploy the project
+
+### CORS errors
+The serverless function includes CORS headers. If issues persist:
 ```javascript
-"Access-Control-Allow-Origin": "*"
+// In /api/send-email.js
+res.setHeader("Access-Control-Allow-Origin", "https://your-domain.com");
 ```
 
-### Email not received
-1. Check Cloudflare Worker logs (Workers → Your Worker → Logs)
-2. Check Resend dashboard for delivery status
-3. Verify RESEND_API_KEY is set correctly
+---
 
-### 404 on page refresh
-This is normal - HashRouter uses `/#/` URLs which work on GitHub Pages
+## Updating the Recipient Email
+
+To change where emails are sent, edit `/api/send-email.js`:
+```javascript
+to: ["your-new-email@example.com"],
+```
+
+Then redeploy:
+```bash
+vercel --prod
+```
 
 ---
 
 ## Costs
 
-| Service | Cost |
-|---------|------|
-| GitHub Pages | Free |
-| Cloudflare Workers | Free (100k requests/day) |
-| Resend | Free (100 emails/day) |
+| Service | Free Tier |
+|---------|-----------|
+| Vercel | 100GB bandwidth, unlimited serverless |
+| Resend | 100 emails/day, 3,000/month |
 
-**Total: $0/month** for most use cases
+**Total: $0/month** for most small businesses
 
 ---
 
-## Custom Domain (Optional)
+## Quick Commands
 
-1. Add `CNAME` file in `/public`:
-   ```
-   cyberentcube.com
-   ```
+```bash
+# Deploy to production
+vercel --prod
 
-2. Configure DNS to point to GitHub Pages
+# View logs
+vercel logs
+
+# List environment variables
+vercel env ls
+
+# Pull env vars locally for testing
+vercel env pull
+```
+
+---
+
+## Local Development
+
+To test the serverless function locally:
+
+```bash
+# Install Vercel CLI
+npm install -g vercel
+
+# Run development server with serverless functions
+vercel dev
+```
+
+This will run both the React app and serverless functions locally.
 
 ---
 
